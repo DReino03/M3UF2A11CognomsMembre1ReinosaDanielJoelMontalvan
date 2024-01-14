@@ -1,48 +1,60 @@
 import java.util.*
 
-//1. Pintant una regió.
-//Tenim un tauler quadrat de n × n cel·les blanques i negres, distribuïdes
-//de qualsevol forma. Una regió blanca és un conjunt contigu de cel·les
-//blanques: dues cel·les blanques són contígües si tenen un costat comú
-//(si només tenen un vértex comú, llavors no son contigües). Una regió
-//negra es defineix de forma equivalent. El valor de n no pot ser més gran
-//de 20.
-//Exemple. Si donat el taulell de l’esquerra es demana pintar la regió de la
-//cel·la (3,3) de color gris. El resultat hauria de ser el taulell de la dreta.
+/**
+ * Programa principal que permet a l'usuari especificar una cel·la inicial i un color,
+ * i després pinta una regió en un tauler quadrat de 5x5.
+ */
+fun main() {
+    val scanner = Scanner(System.`in`)
 
-fun main(){
-    val sc = Scanner(System.`in`)
-    val n = sc.nextInt()
-    val tauler = Array(n){Array(n){0}}
-    for(i in 0..<n){
-        for(j in 0..<n){
-            tauler[i][j] = sc.nextInt()
-        }
-    }
-    val x = sc.nextInt()
-    val y = sc.nextInt()
-    val color = sc.nextInt()
-    pintarRegio(tauler, x, y, color)
-    printTauler(tauler)
+    val tauler = arrayOf(
+        arrayOf(0, 0, 0, 0, 0),
+        arrayOf(0, 1, 1, 1, 0),
+        arrayOf(0, 1, 0, 1, 0),
+        arrayOf(0, 1, 1, 1, 0),
+        arrayOf(0, 0, 0, 0, 0)
+    )
 
+    print("Introdueix la fila de la cel·la inicial: ")
+    val fila = scanner.nextInt()
+    print("Introdueix la columna de la cel·la inicial: ")
+    val columna = scanner.nextInt()
 
-}
-fun pintarRegio(tauler: Array<Array<Int>>, x: Int, y: Int, color: Int){
-    if(x < 0 || x >= tauler.size || y < 0 || y >= tauler.size)
-        return
-    if(tauler[x][y] != color)
-        return
-    tauler[x][y] = color
-    pintarRegio(tauler, x-1, y, color)
-    pintarRegio(tauler, x+1, y, color)
-    pintarRegio(tauler, x, y-1, color)
-    pintarRegio(tauler, x, y+1, color)
-}
-fun printTauler(tauler: Array<Array<Int>>){
-    for(element in tauler){
-        for(j in tauler.indices){
-            print("${element[j]} ")
+    print("Introdueix el color de la regió: ")
+    val color = scanner.nextInt()
+
+    pintarRegió(tauler, fila, columna, color)
+
+    for (fila in tauler.indices) {
+        for (columna in tauler[0].indices) {
+            print(tauler[fila][columna])
         }
         println()
     }
+}
+
+/**
+ * @author Joel Montalvan i Daniel Reinosa
+ *
+ * Funció recursiva que pinta una regió al tauler.
+ *
+ * @param tauler Tauler representat com una matriu bidimensional.
+ * @param fila Fila de la cel·la actual al tauler.
+ * @param columna Columna de la cel·la actual al tauler.
+ * @param color Nou color amb el qual es vol pintar la regió.
+ */
+fun pintarRegió(tauler: Array<Array<Int>>, fila: Int, columna: Int, color: Int): Unit {
+    if (fila < 0 || fila >= tauler.size || columna < 0 || columna >= tauler[0].size) {
+        return
+    }
+    if (tauler[fila][columna] != color) {
+        return
+    }
+
+    tauler[fila][columna] = color
+
+    pintarRegió(tauler, fila - 1, columna, color)
+    pintarRegió(tauler, fila + 1, columna, color)
+    pintarRegió(tauler, fila, columna - 1, color)
+    pintarRegió(tauler, fila, columna + 1, color)
 }
