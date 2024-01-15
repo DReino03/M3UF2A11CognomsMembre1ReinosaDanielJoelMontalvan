@@ -18,7 +18,8 @@ fun main(){
  * @return Nombre de parelles de ratolins
  */
 fun laboratoriDeRatolins(n: Int): Int{
-    if(n == 1 || n == 2)
-        return n
-    return laboratoriDeRatolins(n-1) + laboratoriDeRatolins(n-2)
+    val result: Int
+    if(n == 1 || n == 2) result = n
+    else  result = laboratoriDeRatolins(n-1) + laboratoriDeRatolins(n-2)
+    return  result
 }
